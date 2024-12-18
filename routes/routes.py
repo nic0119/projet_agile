@@ -1,9 +1,16 @@
 from flask import render_template, request, redirect, url_for, session, jsonify
 from flask_socketio import join_room, emit
+import os
+import sys
+
+if "pytest" in sys.modules:
+    sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 from extensions import app, socketio, games, db
 from models.user import User
 import random
 import json
+
 
 
 # Fonction pour générer un ID de partie unique
@@ -246,7 +253,7 @@ def game_room(game_id):
 
 
 @socketio.on("devoiler_vote")
-def devoiler_vote(data):
+def test_devoiler_vote(data):
     game_id = data["game_id"]
     problem = data["problem"]
     compteur = data["compteur"]
@@ -258,6 +265,23 @@ def devoiler_vote(data):
     votes = games[game_id]["votes"].get(problem, {})
     players = games[game_id]["players"]
     mode = games[game_id]["mode"]
+
+
+    # Vérification spéciale : Si tous les votes sont "café"
+    if all(vote == "cafe" for vote in votes.values()) and len(votes) == len(players):
+        print("Tous les joueurs ont voté café, sauvegarde automatique...", flush=True)
+        
+        # Sauvegarder automatiquement la partie
+        handle_save_resultats({"game_id": game_id})
+
+        # Notifier tous les joueurs
+        emit("unanimous_vote", {
+            "problem": problem,
+            "result": "cafe",
+            "votes": votes
+        }, room=game_id)
+
+        return
 
     # Enregistrer le résultat calculé pour le problème dans une structure centralisée
     if "results" not in games[game_id]:
@@ -387,6 +411,10 @@ def devoiler_vote_majorite_relative(game_id, problem, votes):
 
 
 
+
+#JSON 
+
+
 @socketio.on("upload_backlog")
 def handle_upload_backlog(data):
     file_data = data["file_data"]  # Contenu JSON du fichier envoyé par le client
@@ -429,14 +457,21 @@ def handle_load_game(data):
             loaded_game = json.load(file)
 
         games[game_id]["problems"] = [entry["probleme"] for entry in loaded_game]  # Charger les problèmes
-        games[game_id]["resultats"] = {entry["probleme"]: entry["difficulte"] for entry in loaded_game}  # Charger les résultats
+        games[game_id]["resultats"] = {
+            entry["probleme"]: entry["difficulte"]
+            for entry in loaded_game.get("resultats", [])
+        }
 
-        # Log pour vérifier ce qui est envoyé au client
-        print("Données envoyées au client :", {
-            "game_id": game_id,
-            "problems": games[game_id]["problems"],
-            "resultats": games[game_id]["resultats"]
-        })
+
+
+        #Logs pour voir les données chargées
+        print("Fichier chargé :", loaded_game, file=sys.stderr, flush=True)
+        print("Problèmes :", games[game_id]["problems"], file=sys.stderr, flush=True)
+        print("Résultats :", games[game_id]["resultats"], file=sys.stderr, flush=True)
+
+        print("Structure de resultats :", games[game_id]["resultats"])
+        print("Problèmes à envoyer :", games[game_id]["problems"], file=sys.stderr, flush=True)
+        print("Difficultés à envoyer :", games[game_id]["resultats"], file=sys.stderr, flush=True)
 
         # Notifier le client
         emit("game_loaded", {
@@ -448,6 +483,7 @@ def handle_load_game(data):
         emit("error", {"message": "Fichier introuvable."}, room=request.sid)
     except json.JSONDecodeError:
         emit("error", {"message": "Le fichier JSON est invalide."}, room=request.sid)
+
 
 @socketio.on("save_resultats")
 def handle_save_resultats(data):
@@ -477,8 +513,12 @@ def handle_save_resultats(data):
     with open(file_name, "w") as file:
         json.dump(fichier, file, indent=4)
 
-    emit("resultats_saved", {"file_name": file_name}, room=game_id)
- 
+    emit("resultats_saved", {
+        "message": "Tous les joueurs ont voté café. Fin de la partie !",
+        "file_name": file_name
+    }, room=game_id)
 
+    del games[game_id]
+    return
 
 

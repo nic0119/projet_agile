@@ -2,98 +2,91 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tableau de Bord</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.min.js"></script>
+
 </head>
 <body>
-    <h1>Bienvenue, {{ pseudo }} !</h1>
+    <div class="container">
+        <h1>Bienvenue, {{ pseudo }} !</h1>
 
-    <h2>Menu</h2>
+        <h2>Menu</h2>
 
-    <!-- Affiche un message d'erreur si l'ID de partie est incorrect -->
-    {% if error %}
-        <p style="color:red;">{{ error }}</p>
-    {% endif %}
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
 
-    <!-- Section pour créer une partie -->
-    <section>
-        <h3>Créer une Partie</h3>
-        <form method="POST" action="/dashboard">
-            <label for="game_mode">Choisissez le mode de jeu :</label>
-            <select id="game_mode" name="game_mode">
-                <option value="strict">Mode de jeu strict (unanimité)</option>
-                <option value="moyenne">Mode de jeu moyenne</option>
-                <option value="mediane">Mode de jeu médiane</option>
-                <option value="majorite_absolue">Mode de jeu majorité absolue</option>
-                <option value="majorite_relative">Mode de jeu majorité relative</option>
-            </select>
-            <br>
-            <label for="nomber_player">Nombre de joueurs : </label>
-            <select id="number_player" name="number_player">
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-            </select> 
-            <br>
-            <button type="submit" name="create_game">Créer la Partie</button>
-        </form>
-    </section>
+        <section>
+            <h3>Créer une partie</h3>
+            <form method="POST" action="/dashboard">
+                <label for="game_mode">Choisissez le mode de jeu :</label>
+                <select id="game_mode" name="game_mode">
+                    <option value="strict">Mode de jeu strict (unanimité)</option>
+                    <option value="moyenne">Mode de jeu moyenne</option>
+                    <option value="mediane">Mode de jeu médiane</option>
+                    <option value="majorite_absolue">Mode de jeu majorité absolue</option>
+                    <option value="majorite_relative">Mode de jeu majorité relative</option>
+                </select>
+                <label for="number_player">Nombre de joueurs :</label>
+                <select id="number_player" name="number_player">
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                </select>
+                <button type="submit" name="create_game">Créer la Partie</button>
+            </form>
+        </section>
 
-    <!-- Section pour rejoindre une partie -->
-    <section>
-        <h3>Rejoindre une Partie</h3>
-        <form method="POST" action="/dashboard">
-            <label for="game_id">ID de la Partie :</label>
-            <input type="text" id="game_id" name="game_id" required>
-            <button type="submit" name="join_game">Rejoindre</button>
-        </form>
-    </section>
+        <section>
+            <h3>Rejoindre une partie</h3>
+            <form method="POST" action="/dashboard">
+                <label for="game_id">ID de la Partie :</label>
+                <input type="text" id="game_id" name="game_id" required>
+                <button type="submit" name="join_game">Rejoindre</button>
+            </form>
+        </section>
 
-    <!-- Section pour reprendre une partie -->
-    <section>
-        <h3>Reprendre une Partie</h3>
-        <form method="POST" action="/dashboard">
-            <button type="submit" name="resume_game">Reprendre la Dernière Partie</button>
-        </form>
-    </section>
-    <section>
-        <h3>Charger un backlog (JSON)</h3>
-        <form id="upload-backlog-form">
-            <input type="file" id="backlog-file" accept=".json" />
-            <button type="button" onclick="uploadBacklog()">Charger Backlog</button>
-        </form>
-    </section>
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.min.js"></script>
-    <script>
-        const socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
-    
-        // Fonction pour charger un backlog JSON
-        function uploadBacklog() {
-            const fileInput = document.getElementById("backlog-file");
-            const file = fileInput.files[0];
-    
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function (event) {
-                    const fileData = event.target.result;
-                    socket.emit("upload_backlog", { file_data: fileData });
-                };
-                reader.readAsText(file);
-            } else {
-                alert("Veuillez sélectionner un fichier JSON.");
-            }
-        }
-    
-        // Redirection automatique vers game_room après chargement
-        socket.on("redirect_to_game_room", (data) => {
-            window.location.href = `/game_room/${data.game_id}`;
-        });
-    
-        socket.on("error", (data) => {
-            alert(data.message);
-        });
-    </script>
+        <section>
+            <h3>Charger un backlog (JSON)</h3>
+            <form id="upload-backlog-form">
+                <input type="file" id="backlog-file" accept=".json" />
+                <button type="button" onclick="uploadBacklog()">Charger Backlog</button>
+            </form>
+        </section>
+
 </body>
+
+<script>
+    const socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
+
+    // Fonction pour charger un backlog JSON
+    function uploadBacklog() {
+        const fileInput = document.getElementById("backlog-file");
+        const file = fileInput.files[0];
+
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (event) {
+                const fileData = event.target.result;
+                socket.emit("upload_backlog", { file_data: fileData });
+            };
+            reader.readAsText(file);
+        } else {
+            alert("Veuillez sélectionner un fichier JSON.");
+        }
+    }
+
+    // Redirection automatique vers game_room après chargement
+    socket.on("redirect_to_game_room", (data) => {
+        window.location.href = `/game_room/${data.game_id}`;
+    });
+
+    socket.on("error", (data) => {
+        alert(data.message);
+    });
+</script>
 </html>

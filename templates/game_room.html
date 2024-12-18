@@ -3,83 +3,65 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Planning Poker - Salle de Jeu</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='game_room.css') }}">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.min.js"></script>
-
 </head>
 
 <body>
+    <div class="container">
+        <h1>Mode de Jeu : {{ mode_label }}</h1>
 
-    <h1>Mode de Jeu : {{ mode_label }} </h1>
+        <section>
+            <h3>ID de la partie :</h3>
+            <p>{{ game_id }}</p>
+        </section>
 
-    <section>
-        <h3>ID de la partie :</h3>
-        <p>{{ game_id }}</p>
-    </section>
+        <section>
+            <h3>Joueurs dans la Partie</h3>
+            <ul id="players-list">
+                {% for player in players %}
+                    <li>{{ player }}{% if player == host %} (host){% endif %}</li>
+                {% endfor %}
+            </ul>
+        </section>
 
-    <section>
-        <h3>Joueurs dans la Partie</h3>
-        <ul id="players-list">
-            {% for player in players %}
-                <li>{{ player }}{% if player == host %} (host){% endif %}</li>
-            {% endfor %}
-        </ul>
-    </section>
+        <!-- Section des problèmes -->
+        <section id="game-section" style="display: block;">
+            <h3>Problèmes</h3>
+            <ul id="problems-list"></ul>
+            <button onclick="addProblem()">+ Ajouter un problème</button>
 
-
-    <!-- Section de vote visible une fois la partie lancée -->
-    <section id="game-section" style="display: none;">
-        <h3>Problèmes</h3>
-        <ul id="problems-list">
-            {% for player in players %}
-                <li>{{ player }}{% if player == host %} (host){% endif %}</li>
-            {% endfor %}            
-        </ul>
-        <button onclick="addProblem()">+ Ajouter un problème</button>
-
-        <!-- Options de vote -->
-        <h3 id="problem">Voter pour le problème sélectionné : 
-        </h3>
-        <div id="vote-options">
-            <button onclick="castVote(0)">0</button>
-            <button onclick="castVote(1)">1</button>
-            <button onclick="castVote(2)">2</button>
-            <button onclick="castVote(3)">3</button>
-            <button onclick="castVote(5)">5</button>
-            <button onclick="castVote(8)">8</button>
-            <button onclick="castVote(13)">13</button>
-            <button onclick="castVote(20)">20</button>
-            <button onclick="castVote(40)">40</button>
-            <button onclick="castVote(100)">100</button>
-            <button onclick="castVote('?')">?</button>
-            {% if mode_label == "Strict (Unanimité)" %}
-                <button onclick="castVote('cafe')">cafe</button>
-            {% endif %}
-            {% if pseudo == host %}
-                <button onclick="devoilerVote()">Dévoiler vote</button>  <!-- à changer la fonction --> 
-            {% endif %}
-        </div> 
+            <h3 id="problem">Voter pour le problème sélectionné :</h3>
+            <div id="vote-options">
+                
+                <img src="{{ url_for('static', filename='cartes/cartes_0.svg') }}" alt="0" onclick="castVote(0)" class="vote-card">
+                <img src="{{ url_for('static', filename='cartes/cartes_1.svg') }}" alt="1" onclick="castVote(1)" class="vote-card">
+                <img src="{{ url_for('static', filename='cartes/cartes_2.svg') }}" alt="2" onclick="castVote(2)" class="vote-card">
+                <img src="{{ url_for('static', filename='cartes/cartes_3.svg') }}" alt="3" onclick="castVote(3)" class="vote-card">
+                <img src="{{ url_for('static', filename='cartes/cartes_5.svg') }}" alt="5" onclick="castVote(5)" class="vote-card">
+                <img src="{{ url_for('static', filename='cartes/cartes_8.svg') }}" alt="8" onclick="castVote(8)" class="vote-card">
+                <img src="{{ url_for('static', filename='cartes/cartes_13.svg') }}" alt="13" onclick="castVote(13)" class="vote-card">
+                <img src="{{ url_for('static', filename='cartes/cartes_20.svg') }}" alt="20" onclick="castVote(20)" class="vote-card">
+                <img src="{{ url_for('static', filename='cartes/cartes_40.svg') }}" alt="40" onclick="castVote(40)" class="vote-card">
+                <img src="{{ url_for('static', filename='cartes/cartes_100.svg') }}" alt="100" onclick="castVote(100)" class="vote-card">
+                <img src="{{ url_for('static', filename='cartes/cartes_interro.svg') }}" alt="?" onclick="castVote('?')" class="vote-card">
+                <img src="{{ url_for('static', filename='cartes/cartes_cafe.svg') }}" alt="cafe" onclick="castVote('cafe')" class="vote-card">
+            
+            
+                {% if pseudo == host %}
+                    <button onclick="devoilerVote()">Dévoiler vote</button>
+                {% endif %}
+            </div>
+        </section>
 
         {% if pseudo == host %}
-        <br>
         <section>
             <button id="end-game-button" onclick="endGame()">Terminer la partie</button>
         </section>
         {% endif %}
-
-        <section>
-            <button id="download-resultats" onclick="downloadResultats()">Enregistrer les résultats</button>
-        </section>
-    </section>
-
-    <!-- Bouton pour lancer la partie (visible uniquement par l'hôte) -->
-    {% if pseudo == host %}
-    <section>
-        <button id="start-game-button" onclick="startGame()">Lancer la Partie</button>
-    </section>
-    {% endif %}
-
-
+    </div>
 </body>
 
 
@@ -136,29 +118,57 @@ socket.on("game_state", (data) => {
 
 
 
-// Fonction pour ajouter un problème à l'interface utilisateur
 function addProblemToUI(problem) {
     const problemList = document.getElementById("problems-list");
     const li = document.createElement("li");
-    li.textContent = problem;
 
-    // Ajouter un bouton "Voter pour ce problème" uniquement pour l'hôte
+    // Conteneur principal en flexbox
+    const problemContainer = document.createElement("div");
+    problemContainer.style.display = "flex";
+    problemContainer.style.justifyContent = "space-between";
+    problemContainer.style.alignItems = "center";
+    problemContainer.style.padding = "10px 0";
+    problemContainer.style.borderBottom = "1px solid #ddd";
+
+    // Partie gauche : Nom du problème + Bouton voter
+    const leftContainer = document.createElement("div");
+    leftContainer.style.display = "flex";
+    leftContainer.style.alignItems = "center";
+
+    // Nom du problème
+    const problemName = document.createElement("span");
+    problemName.textContent = problem;
+    problemName.style.marginRight = "10px";
+
+    // Bouton "Voter pour ce problème" uniquement pour l'hôte
     {% if pseudo == host %}
-    const voteButton = document.createElement("button");            
+    const voteButton = document.createElement("button");
     voteButton.textContent = "Voter pour ce problème";
-    voteButton.id = `vote-btn-${encodeURIComponent(problem)}`;  // Ajout de l'ID unique
+    voteButton.className = "btn btn-success"; // Style Bootstrap
     voteButton.onclick = () => selectProblem(problem);
-    li.appendChild(voteButton);
+    voteButton.style.marginRight = "10px";
+    leftContainer.appendChild(voteButton);
     {% endif %}
 
-    // Ajouter un élément pour afficher le résultat
+    leftContainer.appendChild(problemName);
+
+    // Partie droite : Résultat aligné à droite
     const resultSpan = document.createElement("span");
     resultSpan.id = `result-${encodeURIComponent(problem)}`;
-    resultSpan.style.marginLeft = "10px";
+    resultSpan.textContent = "Résultat : En attente"; // Texte par défaut
+    resultSpan.style.fontWeight = "bold";
+    resultSpan.style.whiteSpace = "nowrap";
 
-    li.appendChild(resultSpan);
-    problemList.appendChild(li);
+    // Assemblage des conteneurs
+    problemContainer.appendChild(leftContainer); // Partie gauche
+    problemContainer.appendChild(resultSpan); // Partie droite
+
+    li.appendChild(problemContainer); // Ajoute tout au <li>
+    problemList.appendChild(li); // Ajoute au <ul>
 }
+
+
+
 
 function displayConcluedVote(problem, result) {
     const resultSpan = document.getElementById(`result-${encodeURIComponent(problem)}`);
@@ -388,9 +398,7 @@ function downloadResultats() {
     socket.emit("save_resultats", { game_id: gameId });
 }
 
-socket.on("resultats_saved", (data) => {
-    alert(`Résultats sauvegardés dans ${data.file_name}`);
-});
+
 
 function loadGame() {
     const fileName = prompt("Entrez le nom du fichier JSON à charger :");
@@ -401,28 +409,47 @@ function loadGame() {
 
 
 socket.on("game_loaded", (data) => {
-    console.log("Partie chargée :", data);
+    print("load_game reçu :", data, file=sys.stderr, flush=True)
+    console.log("Données reçues :", data);
 
-    // Mettre à jour l'interface utilisateur avec les problèmes et résultats
     const problemsList = document.getElementById("problems-list");
-    problemsList.innerHTML = "";  // Réinitialiser la liste des problèmes
+    problemsList.innerHTML = ""; // Nettoyer la liste
 
-    data.problems.forEach(problem => {
+    // Afficher les problèmes et difficultés
+    data.problems.forEach((problem) => {
+        const difficulte = data.resultats && data.resultats[problem] !== undefined
+            ? data.resultats[problem]
+            : "Non défini";
+
         const li = document.createElement("li");
-        li.textContent = problem;
-
-        // Ajouter la difficulté associée si elle existe
-        if (data.resultats[problem] !== undefined) {
-            li.textContent += ` - Difficulté estimée : ${data.resultats[problem]}`;
-        }
-
+        li.innerHTML = `${problem} - Difficulté : ${difficulte}`;
         problemsList.appendChild(li);
     });
-
-    alert("Partie chargée avec succès !");
 });
 
+function loadGame() {
+    const fileName = prompt("Entrez le nom du fichier JSON à charger :");
+    if (fileName) {
+        console.log("Envoi de load_game avec le fichier :", fileName);  // Log côté client
+        socket.emit("load_game", { file_name: fileName, game_id: "{{ game_id }}" });
+    }
+}
 
+
+socket.on("redirect_to_dashboard", (data) => {
+    alert(data.message);  // Affiche un message à l'utilisateur
+    window.location.href = "/dashboard";  // Redirige vers le tableau de bord
+});
+
+socket.on("resultats_saved", (data) => {
+    {% if pseudo == host %}
+        alert(`Résultats sauvegardés dans ${data.file_name}`);
+        window.location.href = "/dashboard";
+    {% else %}
+        alert(data.message);
+        window.location.href = "/dashboard";
+    {% endif %}
+});
 
 </script>
 </html>

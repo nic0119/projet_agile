@@ -26,3 +26,5 @@ instance/
 # Système
 .DS_Store
 Thumbs.db
+
+test/

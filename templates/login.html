@@ -2,18 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connexion</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
 </head>
 <body>
-    <h1>Connexion</h1>
-    {% if error %}
-        <p style="color:red;">{{ error }}</p>
-    {% endif %}
-    <form action="/login" method="POST">
-        <label for="pseudo">Pseudo :</label>
-        <input type="text" id="pseudo" name="pseudo" required>
-        <button type="submit">Se connecter</button>
-    </form>
-    <p>Pas encore inscrit ? <a href="{{ url_for('signup') }}">Créez un compte ici</a>.</p>
+    <div class="container">
+        <h1>Connexion</h1>
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+        <form action="/login" method="POST">
+            <label for="pseudo">Pseudo :</label>
+            <input type="text" id="pseudo" name="pseudo" required>
+            <button type="submit">Se connecter</button>
+        </form>
+        <p>Pas encore inscrit ? <a href="{{ url_for('signup') }}">Créez un compte ici</a>.</p>
+    </div>
 </body>
 </html>
