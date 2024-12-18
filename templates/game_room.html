@@ -50,12 +50,14 @@
                 <img src="{{ url_for('static', filename='cartes/cartes_cafe.svg') }}" alt="cafe" onclick="castVote('cafe')" class="vote-card">
             
             
-                {% if pseudo == host %}
-                    <button onclick="devoilerVote()">Dévoiler vote</button>
-                {% endif %}
+                
             </div>
         </section>
 
+        {% if pseudo == host %}
+                <button onclick="devoilerVote()">Dévoiler vote</button>
+        {% endif %}
+        <br>
         {% if pseudo == host %}
         <section>
             <button id="end-game-button" onclick="endGame()">Terminer la partie</button>

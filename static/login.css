@@ -1,94 +1,96 @@
 /* Global styles */
 body {
-    font-family: Arial, sans-serif;
+    font-family: "Verdana", sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
+    background-color: #e8f0fe; /* Couleur de fond légèrement bleutée */
+    color: #333;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
+    box-sizing: border-box;
 }
 
-/* Container for the form */
+/* Conteneur principal */
 .container {
-    background: #fff;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background: none;
+    border: none;
+    padding: 0;
     width: 100%;
     max-width: 400px;
     text-align: center;
+    box-sizing: border-box;
 }
 
-/* Heading */
+/* Titre principal */
 h1 {
-    font-size: 26px;
-    margin-bottom: 20px;
-    color: #444;
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
 }
 
-/* Labels and inputs */
+/* Labels */
 label {
     display: block;
     text-align: left;
     margin-bottom: 5px;
     font-weight: bold;
+    color: #444;
 }
 
+/* Inputs */
 input[type="text"] {
     width: 100%;
     padding: 10px;
     margin-bottom: 15px;
     border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
+    border-radius: 0; /* Coins carrés */
+    font-size: 15px;
     box-sizing: border-box;
+    transition: border-color 0.3s;
 }
 
-/* Buttons */
+input[type="text"]:focus {
+    border-color: #8a4baf; /* Violet doux */
+    outline: none;
+}
+
+/* Boutons */
 button {
-    background-color: #4CAF50;
+    background-color: #8a4baf; /* Violet doux */
     color: white;
     padding: 10px;
     border: none;
-    border-radius: 5px;
-    cursor: pointer;
+    border-radius: 0; /* Coins carrés */
     font-size: 16px;
-    transition: background-color 0.3s ease;
-    width: 100%;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.1s;
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: #6b3b8e; /* Violet plus foncé */
+    transform: translateY(-2px);
 }
 
-/* Links */
+/* Liens */
 a {
-    color: #333;
-    font-weight: bold;
+    color: #8a4baf;
     text-decoration: none;
+    font-weight: bold;
 }
 
 a:hover {
     text-decoration: underline;
 }
 
-/* Error messages */
+/* Messages d'erreur */
 .error {
-    background-color: #f8d7da;
-    color: #721c24;
+    background-color: #ffe6e6;
+    color: #d9534f;
     padding: 10px;
-    border-radius: 5px;
+    border-radius: 0; /* Coins carrés */
     margin-bottom: 15px;
-}
-
-/* Responsive design */
-@media (max-width: 600px) {
-    .container {
-        padding: 20px;
-    }
-    h1 {
-        font-size: 22px;
-    }
+    border: 1px solid #f5c6cb;
 }

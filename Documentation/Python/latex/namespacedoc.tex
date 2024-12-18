@@ -1,0 +1,101 @@
+\doxysection{doc Namespace Reference}
+\hypertarget{namespacedoc}{}\label{namespacedoc}\index{doc@{doc}}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacedoc_a7e69df655836d2587357878c4cb0d95e}{generate\+\_\+unique\+\_\+game\+\_\+id}} ()
+\item 
+\mbox{\hyperlink{namespacedoc_ac7f80cdf10299a84df69a9a16550b63f}{signup}} ()
+\item 
+\mbox{\hyperlink{namespacedoc_a2dd17c38fc68e971bbfec34ee862de86}{login}} ()
+\item 
+\mbox{\hyperlink{namespacedoc_adba186783dce0085769671f8172e2b79}{dashboard}} ()
+\item 
+\mbox{\hyperlink{namespacedoc_a2a4d1047eef6fccc54b45b0e1ac00249}{handle\+\_\+start\+\_\+game}} (data)
+\item 
+\mbox{\hyperlink{namespacedoc_ade19b10224c38dd131a6bd322e509b9b}{handle\+\_\+select\+\_\+problem}} (data)
+\item 
+\mbox{\hyperlink{namespacedoc_a1fa81415cc110c355f9b0921da6f7f0b}{handle\+\_\+cast\+\_\+vote}} (data)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}@file routes.py
+@brief Ce fichier gère les routes principales de l'application Flask et les événements Socket.IO pour une application de planning poker.
+
+@details
+- Gère les fonctionnalités d'inscription, de connexion et de tableau de bord.
+- Permet de créer et rejoindre des parties de planning poker.
+- Gère les interactions en temps réel entre les joueurs avec Socket.IO.
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Function Documentation}
+\Hypertarget{namespacedoc_adba186783dce0085769671f8172e2b79}\label{namespacedoc_adba186783dce0085769671f8172e2b79} 
+\index{doc@{doc}!dashboard@{dashboard}}
+\index{dashboard@{dashboard}!doc@{doc}}
+\doxysubsubsection{\texorpdfstring{dashboard()}{dashboard()}}
+{\footnotesize\ttfamily doc.\+dashboard (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Page principale après connexion.
+@details Permet de créer une partie ou de rejoindre une partie existante.
+@return Page du tableau de bord.
+\end{DoxyVerb}
+ \Hypertarget{namespacedoc_a7e69df655836d2587357878c4cb0d95e}\label{namespacedoc_a7e69df655836d2587357878c4cb0d95e} 
+\index{doc@{doc}!generate\_unique\_game\_id@{generate\_unique\_game\_id}}
+\index{generate\_unique\_game\_id@{generate\_unique\_game\_id}!doc@{doc}}
+\doxysubsubsection{\texorpdfstring{generate\_unique\_game\_id()}{generate\_unique\_game\_id()}}
+{\footnotesize\ttfamily doc.\+generate\+\_\+unique\+\_\+game\+\_\+id (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Génère un ID de partie unique.
+@return Un identifiant aléatoire qui n'est pas déjà utilisé.
+\end{DoxyVerb}
+ \Hypertarget{namespacedoc_a1fa81415cc110c355f9b0921da6f7f0b}\label{namespacedoc_a1fa81415cc110c355f9b0921da6f7f0b} 
+\index{doc@{doc}!handle\_cast\_vote@{handle\_cast\_vote}}
+\index{handle\_cast\_vote@{handle\_cast\_vote}!doc@{doc}}
+\doxysubsubsection{\texorpdfstring{handle\_cast\_vote()}{handle\_cast\_vote()}}
+{\footnotesize\ttfamily doc.\+handle\+\_\+cast\+\_\+vote (\begin{DoxyParamCaption}\item[{}]{data }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Enregistre les votes des joueurs.
+@param data Contient l'ID de la partie, le problème, et les votes des joueurs.
+\end{DoxyVerb}
+ \Hypertarget{namespacedoc_ade19b10224c38dd131a6bd322e509b9b}\label{namespacedoc_ade19b10224c38dd131a6bd322e509b9b} 
+\index{doc@{doc}!handle\_select\_problem@{handle\_select\_problem}}
+\index{handle\_select\_problem@{handle\_select\_problem}!doc@{doc}}
+\doxysubsubsection{\texorpdfstring{handle\_select\_problem()}{handle\_select\_problem()}}
+{\footnotesize\ttfamily doc.\+handle\+\_\+select\+\_\+problem (\begin{DoxyParamCaption}\item[{}]{data }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Sélectionne un problème pour le vote.
+@param data Contient l'ID de la partie et le problème sélectionné.
+\end{DoxyVerb}
+ \Hypertarget{namespacedoc_a2a4d1047eef6fccc54b45b0e1ac00249}\label{namespacedoc_a2a4d1047eef6fccc54b45b0e1ac00249} 
+\index{doc@{doc}!handle\_start\_game@{handle\_start\_game}}
+\index{handle\_start\_game@{handle\_start\_game}!doc@{doc}}
+\doxysubsubsection{\texorpdfstring{handle\_start\_game()}{handle\_start\_game()}}
+{\footnotesize\ttfamily doc.\+handle\+\_\+start\+\_\+game (\begin{DoxyParamCaption}\item[{}]{data }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Démarre une partie.
+@details Change l'état de la partie à "active" et notifie tous les joueurs.
+@param data Contient l'ID de la partie.
+\end{DoxyVerb}
+ \Hypertarget{namespacedoc_a2dd17c38fc68e971bbfec34ee862de86}\label{namespacedoc_a2dd17c38fc68e971bbfec34ee862de86} 
+\index{doc@{doc}!login@{login}}
+\index{login@{login}!doc@{doc}}
+\doxysubsubsection{\texorpdfstring{login()}{login()}}
+{\footnotesize\ttfamily doc.\+login (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Gère la connexion des utilisateurs.
+@details Vérifie si l'utilisateur existe et enregistre son pseudo dans la session.
+@return Page de connexion ou redirection vers le tableau de bord.
+\end{DoxyVerb}
+ \Hypertarget{namespacedoc_ac7f80cdf10299a84df69a9a16550b63f}\label{namespacedoc_ac7f80cdf10299a84df69a9a16550b63f} 
+\index{doc@{doc}!signup@{signup}}
+\index{signup@{signup}!doc@{doc}}
+\doxysubsubsection{\texorpdfstring{signup()}{signup()}}
+{\footnotesize\ttfamily doc.\+signup (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Gère l'inscription des utilisateurs.
+@details Affiche un formulaire pour s'inscrire ou ajoute un nouvel utilisateur si le pseudo est unique.
+@return Page d'inscription ou redirection vers le tableau de bord.
+\end{DoxyVerb}
+ 

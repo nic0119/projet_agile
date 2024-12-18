@@ -1,33 +1,42 @@
-/* Général */
+/* Global styles */
 body {
-    font-family: Arial, sans-serif;
+    font-family: "Verdana", sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4; /* Fond gris clair */
+    background-color: #e8f0fe; /* Couleur de fond apaisante */
     color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    box-sizing: border-box;
 }
 
 /* Conteneur principal */
 .container {
-    max-width: 800px;
-    margin: 20px auto;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-/* Titres */
-h1 {
-    font-size: 28px;
+    background: none; /* Pas de cadre */
+    border: none; /* Pas de bordure */
+    padding: 0;
+    width: 100%;
+    max-width: 800px; /* Plus large que les autres pages */
     text-align: center;
-    margin-bottom: 20px;
-    color: #444;
+    box-shadow: none; /* Supprime l'ombre */
+    box-sizing: border-box;
 }
 
-h3 {
-    color: #666;
-    margin-top: 20px;
+/* Titre principal */
+h1 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+}
+
+/* Sous-titres */
+h2, h3 {
+    color: #444;
+    margin-bottom: 10px;
+    font-size: 18px;
 }
 
 /* Sections */
@@ -35,140 +44,95 @@ section {
     margin-bottom: 20px;
 }
 
-ul {
+/* Liste des joueurs */
+#players-list {
     list-style: none;
     padding: 0;
+    margin: 0 0 20px 0;
+    text-align: left;
 }
 
-li {
-    margin-bottom: 10px;
+#players-list li {
     font-size: 16px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #ccc;
 }
 
+/* Liste des problèmes */
+#problems-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 20px 0;
+}
+
+#problems-list li {
+    font-size: 16px;
+    padding: 8px 0;
+    border-bottom: 1px solid #ccc;
+}
+
+/* Boutons */
 button {
-    background-color: #4CAF50;
+    background-color: #8a4baf; /* Violet doux */
     color: white;
+    padding: 10px 15px;
     border: none;
-    padding: 8px 12px;
-    border-radius: 5px;
+    border-radius: 0; /* Coins carrés */
     cursor: pointer;
     font-size: 14px;
-    transition: background-color 0.3s ease;
-    margin: 5px 0;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    margin: 10px 0;
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: #6b3b8e; /* Violet plus foncé au survol */
+    transform: translateY(-2px);
 }
 
-#vote-options button {
-    margin-right: 5px;
-    margin-bottom: 10px;
-    font-size: 12px;
-    padding: 6px 10px;
+/* Options de vote */
+.vote-card {
+    width: 60px; /* Taille des cartes */
+    height: auto;
+    margin: 5px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
 }
 
-/* Alignement des formulaires */
-form {
-    margin-top: 10px;
+.vote-card:hover {
+    transform: scale(1.1); /* Agrandir légèrement au survol */
 }
 
-input[type="text"], select {
-    padding: 8px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    width: 100%;
-    box-sizing: border-box;
-    margin-bottom: 10px;
-}
-
-/* Section des votes */
-#vote-options {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-/* Boutons d'action */
-#end-game-button, #start-game-button {
-    width: 100%;
-    font-size: 16px;
-    margin-top: 10px;
+/* Messages d'erreur */
+.error {
+    background-color: #ffe6e6;
+    color: #d9534f;
+    padding: 10px;
+    border-radius: 0; /* Coins carrés */
+    font-size: 14px;
+    margin-bottom: 15px;
+    border: 1px solid #f5c6cb;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-    h1 {
-        font-size: 24px;
+    .container {
+        padding: 0;
     }
 
-    .container {
-        padding: 10px;
+    h1 {
+        font-size: 20px;
+    }
+
+    h2, h3 {
+        font-size: 16px;
     }
 
     button {
         font-size: 12px;
-        padding: 6px 8px;
+        padding: 8px 10px;
     }
 
-    #vote-options button {
-        font-size: 10px;
-        padding: 4px 6px;
+    .vote-card {
+        width: 50px;
     }
-}
-
-/* Liste des problèmes */
-#problems-list li {
-    display: flex;
-    justify-content: space-between; /* Alignement des éléments aux extrémités */
-    align-items: center; /* Alignement vertical centré */
-    padding: 8px 0; /* Espacement entre les problèmes */
-    border-bottom: 1px solid #e0e0e0; /* Ligne de séparation discrète */
-}
-
-/* Ajustement pour le bouton */
-#problems-list button {
-    margin-left: 20px; /* Espacement entre le texte et le bouton */
-    white-space: nowrap; /* Empêche le texte du bouton de se couper */
-}
-
-.vote-card {
-    width: 80px; /* Largeur fixe des cartes */
-    height: auto; /* Hauteur proportionnelle */
-    margin: 10px; /* Espacement entre les cartes */
-    cursor: pointer; /* Curseur pointeur pour montrer qu'elles sont cliquables */
-    transition: transform 0.2s ease-in-out; /* Effet de zoom */
-}
-
-.vote-card:hover {
-    transform: scale(1.1); /* Effet zoom au survol */
-}
-
-#vote-options {
-    display: flex;
-    flex-wrap: wrap; /* Permet de passer à la ligne si nécessaire */
-    justify-content: center; /* Centre les cartes horizontalement */
-    gap: 10px; /* Espacement entre les cartes */
-}
-
-.problem-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 0;
-    border-bottom: 1px solid #ddd;
-}
-
-.problem-container .left {
-    display: flex;
-    align-items: center;
-}
-
-.problem-container .result {
-    font-weight: bold;
-    white-space: nowrap;
 }

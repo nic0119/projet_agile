@@ -1,45 +1,46 @@
 /* Global styles */
 body {
-    font-family: Arial, sans-serif;
+    font-family: "Verdana", sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f8f9fa; /* Fond gris clair */
-    color: #333; /* Texte sombre */
+    background-color: #e8f0fe; /* Couleur de fond légèrement bleutée */
     display: flex;
     justify-content: center; /* Centrage horizontal */
     align-items: center;     /* Centrage vertical */
     min-height: 100vh;
     box-sizing: border-box;
+    color: #333;
 }
 
 /* Conteneur principal */
 .container {
-    background-color: #fff; /* Fond blanc */
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre douce */
-    padding: 30px;
+    background: none; /* Supprime l'arrière-plan */
+    border: none; /* Supprime les bordures */
+    padding: 0;
     width: 100%;
-    max-width: 600px; /* Largeur maximale */
+    max-width: 600px;
+    text-align: center;
+    box-shadow: none; /* Pas d'ombre */
     box-sizing: border-box;
 }
 
 /* Titre principal */
 h1 {
-    text-align: center;
-    color: #444;
+    color: #333;
     margin-bottom: 20px;
-    font-size: 26px;
+    font-size: 24px;
+    letter-spacing: 1px;
 }
 
 /* Sous-titres */
 h2, h3 {
-    color: #555;
+    color: #444;
     margin-bottom: 15px;
 }
 
 /* Sections */
 section {
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 }
 
 /* Formulaires */
@@ -51,61 +52,78 @@ form {
 
 /* Labels */
 label {
+    font-size: 14px;
     font-weight: bold;
     margin-bottom: 5px;
+    color: #444;
 }
 
 /* Inputs et sélecteurs */
 input[type="text"], select, input[type="file"] {
     padding: 10px;
     border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
+    border-radius: 0; /* Coins carrés */
+    font-size: 15px;
+    transition: border-color 0.3s;
+    box-sizing: border-box;
+}
+
+input[type="text"]:focus, select:focus, input[type="file"]:focus {
+    border-color: #8a4baf; /* Violet doux */
+    outline: none;
 }
 
 /* Boutons */
 button {
-    background-color: #4CAF50; /* Vert agréable */
+    background-color: #8a4baf; /* Violet doux */
     color: white;
-    border: none;
-    border-radius: 5px;
     padding: 10px;
-    font-size: 16px;
+    border: none;
+    border-radius: 0; /* Coins carrés */
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    font-size: 16px;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    margin-top: 10px;
 }
 
 button:hover {
-    background-color: #45a049;
-}
-
-/* Erreur */
-.error {
-    background-color: #f8d7da;
-    color: #721c24;
-    padding: 10px;
-    border-radius: 5px;
-    margin-bottom: 15px;
+    background-color: #6b3b8e; /* Violet plus foncé au survol */
+    transform: translateY(-2px); /* Légère élévation */
 }
 
 /* Liens */
 a {
-    color: #444;
+    color: #8a4baf;
+    font-size: 14px;
     text-decoration: none;
-    font-weight: bold;
 }
 
 a:hover {
     text-decoration: underline;
 }
 
+/* Messages d'erreur */
+.error {
+    background-color: #ffe6e6; /* Fond rouge pâle */
+    color: #d9534f; /* Texte rouge vif */
+    padding: 10px;
+    border-radius: 0; /* Coins carrés */
+    font-size: 14px;
+    margin-bottom: 15px;
+    border: 1px solid #f5c6cb;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .container {
-        padding: 20px;
+        padding: 0;
     }
 
     h1 {
-        font-size: 22px;
+        font-size: 20px;
+    }
+
+    input[type="text"], button, select {
+        font-size: 14px;
     }
 }

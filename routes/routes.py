@@ -2,10 +2,6 @@ from flask import render_template, request, redirect, url_for, session, jsonify
 from flask_socketio import join_room, emit
 import os
 import sys
-
-if "pytest" in sys.modules:
-    sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
 from extensions import app, socketio, games, db
 from models.user import User
 import random
@@ -253,7 +249,7 @@ def game_room(game_id):
 
 
 @socketio.on("devoiler_vote")
-def test_devoiler_vote(data):
+def devoiler_vote(data):
     game_id = data["game_id"]
     problem = data["problem"]
     compteur = data["compteur"]
