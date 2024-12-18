@@ -1,0 +1,13 @@
+{
+    "partie_id": "1499",
+    "mode_de_jeu": "strict",
+    "number_player": "2",
+    "resultats": [
+        {
+            "probleme": "sd",
+            "difficulte": {
+                "sd": 20
+            }
+        }
+    ]
+}
