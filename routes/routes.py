@@ -8,7 +8,6 @@ import random
 import json
 
 
-
 # Fonction pour générer un ID de partie unique
 def generate_unique_game_id():
     while True:
@@ -16,7 +15,10 @@ def generate_unique_game_id():
         if game_id not in games:
             return game_id
 
-# Routes HTTP
+
+
+## Login et Signup 
+
 @app.route("/", methods=["GET", "POST"])
 def signup():
     if request.method == "POST":
@@ -68,8 +70,6 @@ def dashboard():
             }
 
             session["game_id"] = game_id
-    
-            # Obtenir la route correspondant au mode de jeu
             route = "game_room"
 
             if route:
@@ -107,12 +107,11 @@ def dashboard():
 
 ## - Game Room - ##
 
-
 @socketio.on("start_game")
 def handle_start_game(data):
     game_id = data["game_id"]
 
-    if session["pseudo"] == games[game_id]["host"]: # Vérifie si l'utilisateur qui déclenche est bien l'hôte
+    if session["pseudo"] == games[game_id]["host"]: 
         games[game_id]["status"] = "active"
         emit("start_game", {"game_id": game_id}, room=game_id)
 
@@ -122,16 +121,17 @@ def handle_select_problem(data):
     game_id = data["game_id"]
     problem = data["problem"]
 
-    games[game_id]["current_problem"] = problem # Met à jour le problème actuel dans la partie
+    games[game_id]["current_problem"] = problem 
 
-    emit("problem_selected", {"problem": problem}, room=game_id)   # Diffuse à tous les joueurs le problème sélectionné
+    # Diffuse pour tous les joueurs
+    emit("problem_selected", {"problem": problem}, room=game_id) 
 
 @socketio.on("start_vote")
 def handle_start_vote(data):
     game_id = data["game_id"]
     problem = data["problem"]
     
-    games[game_id]["votes"][problem] = {} # Initialiser les votes pour ce problème
+    games[game_id]["votes"][problem] = {} # Initialiser les votes pour le problème
     
     emit("vote_started", {"problem": problem}, room=game_id) # Notifier tous les joueurs pour démarrer le vote
 
@@ -144,12 +144,12 @@ def handle_cast_vote(data):
 
     # Vérifie si le vote pour ce problème est déjà conclu
     if problem in games[game_id].get("concluded_votes", {}):
-        return  # Ignore les votes si le problème est déjà conclu
+        return  
 
     # Enregistre le vote pour le joueur et le problème
     games[game_id]["votes"][problem][pseudo] = vote
 
-    # Notifie tous les joueurs des votes en cours (ne conclut pas le problème)
+    # Notifie tous les joueurs des votes en cours 
     emit("update_votes", {"problem": problem, "votes": games[game_id]["votes"][problem]}, room=game_id)
 
 
@@ -161,7 +161,8 @@ def handle_join(data):
     if game_id not in games:
         emit("error", {"message": "La partie n'existe pas."}, room=request.sid)
         return
-
+    
+    # Vérification nombre joueurs dans la partie
     current_players = len(games[game_id]["players"])
     max_players = int(games[game_id]["number_player"])
 
@@ -169,13 +170,12 @@ def handle_join(data):
         emit("error", {"message": "La partie est déjà complète."}, room=request.sid)
         return
 
-    # Ajoute le joueur à la liste s'il n'est pas déjà dans la partie
     if pseudo not in games[game_id]["players"]:
         games[game_id]["players"].append(pseudo)
     
     join_room(game_id)
 
-    #Prépare les données pour l'état de la partie
+    # Prépare les données pour la partie
     game_data = {
         "status": games[game_id]["status"],
         "current_problem": games[game_id].get("current_problem", None),
@@ -187,7 +187,6 @@ def handle_join(data):
     # Envoie l'état actuel de la partie et les problèmes/votes au client
     emit("update_players", {"players": games[game_id]["players"], "host": games[game_id]["host"]}, room=game_id)
     emit("game_state", game_data, room=request.sid)
-
 
 
 @socketio.on("add_problem")
@@ -204,16 +203,12 @@ def handle_end_game(data):
     game_id = data["game_id"]
     pseudo = session.get("pseudo")
 
-    # Vérifie que la partie existe
     if game_id not in games:
         emit("error", {"message": "La partie n'existe pas ou a déjà été terminée."}, room=request.sid)
         return
 
-    # Vérifie si l'utilisateur est l'hôte de la partie
     if games[game_id]["host"] == pseudo:
-        # Notifie tous les joueurs que la partie est terminée
         emit("game_ended", {"message": "La partie a été terminée par l'hôte."}, room=game_id)
-        # Supprime la partie du dictionnaire des parties (optionnel)
         del games[game_id]
 
 
@@ -263,14 +258,13 @@ def devoiler_vote(data):
     mode = games[game_id]["mode"]
 
 
-    # Vérification spéciale : Si tous les votes sont "café"
+    # Si tous les votes sont "café"
     if all(vote == "cafe" for vote in votes.values()) and len(votes) == len(players):
         print("Tous les joueurs ont voté café, sauvegarde automatique...", flush=True)
         
         # Sauvegarder automatiquement la partie
         handle_save_resultats({"game_id": game_id})
 
-        # Notifier tous les joueurs
         emit("unanimous_vote", {
             "problem": problem,
             "result": "cafe",
@@ -279,7 +273,6 @@ def devoiler_vote(data):
 
         return
 
-    # Enregistrer le résultat calculé pour le problème dans une structure centralisée
     if "results" not in games[game_id]:
         games[game_id]["results"] = {} 
 
@@ -413,17 +406,16 @@ def devoiler_vote_majorite_relative(game_id, problem, votes):
 
 @socketio.on("upload_backlog")
 def handle_upload_backlog(data):
-    file_data = data["file_data"]  # Contenu JSON du fichier envoyé par le client
+    file_data = data["file_data"]  #Contenu du JSON 
     try:
-        # Charger le JSON reçu
+        #Charger le JSON 
         backlog = json.loads(file_data)
 
-        # Extraire les informations nécessaires depuis le JSON
         game_id = backlog.get("partie_id")
         mode_de_jeu = backlog.get("mode_de_jeu")
         resultats = backlog.get("resultats", [])
         number_player = backlog.get("number_player")
-        # Créer ou actualiser la partie avec les informations du JSON
+
         games[game_id] = {
             "mode": mode_de_jeu,
             "players": [session["pseudo"]],
@@ -437,48 +429,10 @@ def handle_upload_backlog(data):
         }
         for entry in resultats:
             games[game_id]["votes"][entry["probleme"]] = {}
-        # Rediriger vers la salle de jeu
+    
         emit("redirect_to_game_room", {"game_id": game_id})
     except Exception as e:
         emit("error", {"message": f"Erreur lors de l'import du JSON : {str(e)}"})
-
-
-@socketio.on("load_game")
-def handle_load_game(data):
-    game_id = data["game_id"]
-    file_name = data["file_name"]
-
-    try:
-        with open(file_name, "r") as file:
-            loaded_game = json.load(file)
-
-        games[game_id]["problems"] = [entry["probleme"] for entry in loaded_game]  # Charger les problèmes
-        games[game_id]["resultats"] = {
-            entry["probleme"]: entry["difficulte"]
-            for entry in loaded_game.get("resultats", [])
-        }
-
-
-
-        #Logs pour voir les données chargées
-        print("Fichier chargé :", loaded_game, file=sys.stderr, flush=True)
-        print("Problèmes :", games[game_id]["problems"], file=sys.stderr, flush=True)
-        print("Résultats :", games[game_id]["resultats"], file=sys.stderr, flush=True)
-
-        print("Structure de resultats :", games[game_id]["resultats"])
-        print("Problèmes à envoyer :", games[game_id]["problems"], file=sys.stderr, flush=True)
-        print("Difficultés à envoyer :", games[game_id]["resultats"], file=sys.stderr, flush=True)
-
-        # Notifier le client
-        emit("game_loaded", {
-            "game_id": game_id,
-            "problems": games[game_id]["problems"],
-            "resultats": games[game_id]["resultats"]
-        }, room=request.sid)
-    except FileNotFoundError:
-        emit("error", {"message": "Fichier introuvable."}, room=request.sid)
-    except json.JSONDecodeError:
-        emit("error", {"message": "Le fichier JSON est invalide."}, room=request.sid)
 
 
 @socketio.on("save_resultats")
