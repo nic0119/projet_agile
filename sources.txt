@@ -26,4 +26,4 @@ Les sources utilisées pour notre projet :
 - Style 
 
 9) ChatGPT : https://chatgpt.com/
-- Aide polyvalente (comprendre erreurs, optimisation, etc.) 
+- Aide polyvalente (aides aux erreurs, débugs, optimisation, documentation rapide, etc.) 
