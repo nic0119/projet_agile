@@ -400,44 +400,6 @@ function downloadResultats() {
     socket.emit("save_resultats", { game_id: gameId });
 }
 
-
-
-function loadGame() {
-    const fileName = prompt("Entrez le nom du fichier JSON à charger :");
-    if (fileName) {
-        socket.emit("load_game", { file_name: fileName });
-    }
-}
-
-
-socket.on("game_loaded", (data) => {
-    print("load_game reçu :", data, file=sys.stderr, flush=True)
-    console.log("Données reçues :", data);
-
-    const problemsList = document.getElementById("problems-list");
-    problemsList.innerHTML = ""; // Nettoyer la liste
-
-    // Afficher les problèmes et difficultés
-    data.problems.forEach((problem) => {
-        const difficulte = data.resultats && data.resultats[problem] !== undefined
-            ? data.resultats[problem]
-            : "Non défini";
-
-        const li = document.createElement("li");
-        li.innerHTML = `${problem} - Difficulté : ${difficulte}`;
-        problemsList.appendChild(li);
-    });
-});
-
-function loadGame() {
-    const fileName = prompt("Entrez le nom du fichier JSON à charger :");
-    if (fileName) {
-        console.log("Envoi de load_game avec le fichier :", fileName);  // Log côté client
-        socket.emit("load_game", { file_name: fileName, game_id: "{{ game_id }}" });
-    }
-}
-
-
 socket.on("redirect_to_dashboard", (data) => {
     alert(data.message);  // Affiche un message à l'utilisateur
     window.location.href = "/dashboard";  // Redirige vers le tableau de bord
