@@ -70,3 +70,5 @@ npm run test
 pip install pytest
 pytest -v test/test_routes.py
 ```
+
+Pour plus d'informations, le rapport de Projet est les fichier "Rapport Projet.pdf" situé à la racine du GitHub.
