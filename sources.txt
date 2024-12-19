@@ -1,1 +1,29 @@
+Les sources utilisées pour notre projet :
 
+1) Flask : https://flask.palletsprojects.com/en/stable/
+- Gestion des routes (@app.route), manipulation sessions, etc.
+
+2) Socket.IO : https://socket.io/docs/v4/
+- Communication en temps réel entre les utilisateurs et le serveur
+- événements emit, on, join_roomn, leave_room
+
+3) SQLAlchemy : https://www.sqlalchemy.org/
+- Utilisation de la base de données dans notre model User
+
+4) Doxygen : https://www.doxygen.nl/ et JsDoc : https://jsdoc.app/
+- Génération de documentation
+
+5) PyTest : https://docs.pytest.org/en/stable/ et jest : https://docs.pytest.org/en/stable/
+- tests unitaires 
+
+6) Git et Github : https://git-scm.com/ et https://docs.github.com/fr
+- Commandes git
+
+7) JSON : https://www.json.org/json-en.html
+- Implémentation de backlogs pour reprendre/sauvegarder une partie 
+
+8) CSS : https://developer.mozilla.org/fr/docs/Learn/Getting_started_with_the_web/CSS_basics
+- Style 
+
+9) ChatGPT : https://chatgpt.com/
+- Aide polyvalente (comprendre erreurs, optimisation, etc.) 
