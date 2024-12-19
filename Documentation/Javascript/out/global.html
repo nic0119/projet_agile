@@ -152,7 +152,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="game_room.test.js.html">game_room.test.js</a>, <a href="game_room.test.js.html#line26">line 26</a>
+        <a href="doc.js.html">doc.js</a>, <a href="doc.js.html#line27">line 27</a>
     </li></ul></dd>
     
 
@@ -224,7 +224,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="game_room.test.js.html">game_room.test.js</a>, <a href="game_room.test.js.html#line23">line 23</a>
+        <a href="doc.js.html">doc.js</a>, <a href="doc.js.html#line24">line 24</a>
     </li></ul></dd>
     
 
@@ -296,7 +296,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="game_room.test.js.html">game_room.test.js</a>, <a href="game_room.test.js.html#line17">line 17</a>
+        <a href="doc.js.html">doc.js</a>, <a href="doc.js.html#line18">line 18</a>
     </li></ul></dd>
     
 
@@ -368,7 +368,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="game_room.test.js.html">game_room.test.js</a>, <a href="game_room.test.js.html#line20">line 20</a>
+        <a href="doc.js.html">doc.js</a>, <a href="doc.js.html#line21">line 21</a>
     </li></ul></dd>
     
 
@@ -430,7 +430,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="game_room.test.js.html">game_room.test.js</a>, <a href="game_room.test.js.html#line14">line 14</a>
+        <a href="doc.js.html">doc.js</a>, <a href="doc.js.html#line15">line 15</a>
     </li></ul></dd>
     
 
@@ -466,7 +466,7 @@
 
 
 <div class="description">
-    Émet un événement pour ajouter un problème à la partie.
+    Permet à l'hôte d'ajouter un nouveau problème à l'aide d'un prompt.
 </div>
 
 
@@ -510,7 +510,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="game_room.test.js.html">game_room.test.js</a>, <a href="game_room.test.js.html#line166">line 166</a>
+        <a href="doc.js.html">doc.js</a>, <a href="doc.js.html#line172">line 172</a>
     </li></ul></dd>
     
 
@@ -524,6 +524,11 @@
 
 
 
+
+<h5>Fires:</h5>
+<ul>
+    <li>add_problem- `game_id` : L'ID de la partie en cours.- `problem` : Le nouveau problème ajouté.event:</li>
+</ul>
 
 
 
@@ -554,7 +559,7 @@
 
 
 <div class="description">
-    Ajoute un problème à l'interface utilisateur.
+    Ajoute un problème à l'interface utilisateur dans la liste des problèmes disponibles.
 </div>
 
 
@@ -606,7 +611,7 @@
 
             
 
-            <td class="description last">Le nom du problème à ajouter.</td>
+            <td class="description last">Le nom du problème à ajouter à la liste.</td>
         </tr>
 
     
@@ -647,7 +652,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="game_room.test.js.html">game_room.test.js</a>, <a href="game_room.test.js.html#line92">line 92</a>
+        <a href="doc.js.html">doc.js</a>, <a href="doc.js.html#line33">line 33</a>
     </li></ul></dd>
     
 
@@ -661,6 +666,151 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="castVote"><span class="type-signature"></span>castVote<span class="signature">(vote)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Soumet un vote pour le problème actuellement sélectionné.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>vote</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+|
+
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">La valeur du vote soumis par le joueur.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="doc.js.html">doc.js</a>, <a href="doc.js.html#line239">line 239</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<h5>Fires:</h5>
+<ul>
+    <li>cast_vote- `game_id` : L'ID de la partie en cours.- `problem` : Le problème actuellement sélectionné pour le vote.- `vote` : La valeur du vote soumis.- `pseudo` : Le pseudo du joueur.event:</li>
+</ul>
 
 
 
@@ -691,7 +841,7 @@
 
 
 <div class="description">
-    Dévoile les votes pour le problème sélectionné.Accessible uniquement à l'hôte.
+    Permet à l'hôte de dévoiler les votes pour le problème actuellement sélectionné lorsque tous les joueurs ont voté.
 </div>
 
 
@@ -735,7 +885,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="game_room.test.js.html">game_room.test.js</a>, <a href="game_room.test.js.html#line131">line 131</a>
+        <a href="doc.js.html">doc.js</a>, <a href="doc.js.html#line212">line 212</a>
     </li></ul></dd>
     
 
@@ -749,6 +899,11 @@
 
 
 
+
+<h5>Fires:</h5>
+<ul>
+    <li>devoiler_vote- `game_id` : L'ID de la partie en cours.- `problem` : Le problème pour lequel les votes sont dévoilés.- `compteur` : Le nombre de fois que les votes ont été dévoilés pour le problème actuel.event:</li>
+</ul>
 
 
 
@@ -779,7 +934,7 @@
 
 
 <div class="description">
-    Affiche le résultat dévoilé pour un problème.
+    Met à jour l'interface pour afficher le résultat d'un vote conclu pour un problème donné.
 </div>
 
 
@@ -831,7 +986,7 @@
 
             
 
-            <td class="description last">Le problème concerné.</td>
+            <td class="description last">Le problème pour lequel le vote a été conclu.</td>
         </tr>
 
     
@@ -857,7 +1012,7 @@
 
             
 
-            <td class="description last">Le résultat final des votes.</td>
+            <td class="description last">Le résultat du vote (peut être une chaîne ou un nombre selon le mode).</td>
         </tr>
 
     
@@ -898,7 +1053,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="game_room.test.js.html">game_room.test.js</a>, <a href="game_room.test.js.html#line145">line 145</a>
+        <a href="doc.js.html">doc.js</a>, <a href="doc.js.html#line94">line 94</a>
     </li></ul></dd>
     
 
@@ -942,7 +1097,7 @@
 
 
 <div class="description">
-    Affiche un vote pour un problème spécifique.
+    Affiche ou met à jour le vote d'un joueur pour un problème.
 </div>
 
 
@@ -994,7 +1149,7 @@
 
             
 
-            <td class="description last">Le problème pour lequel le vote est effectué.</td>
+            <td class="description last">Le problème sélectionné.</td>
         </tr>
 
     
@@ -1043,7 +1198,7 @@
 
             
 
-            <td class="description last">La valeur du vote (ex: 1, 5, "café").</td>
+            <td class="description last">La valeur du vote du joueur.</td>
         </tr>
 
     
@@ -1084,7 +1239,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="game_room.test.js.html">game_room.test.js</a>, <a href="game_room.test.js.html#line105">line 105</a>
+        <a href="doc.js.html">doc.js</a>, <a href="doc.js.html#line124">line 124</a>
     </li></ul></dd>
     
 
@@ -1128,7 +1283,7 @@
 
 
 <div class="description">
-    Télécharge les résultats de la partie.
+    Demande au serveur de sauvegarder les résultats de la partie
 </div>
 
 
@@ -1172,7 +1327,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="game_room.test.js.html">game_room.test.js</a>, <a href="game_room.test.js.html#line176">line 176</a>
+        <a href="doc.js.html">doc.js</a>, <a href="doc.js.html#line313">line 313</a>
     </li></ul></dd>
     
 
@@ -1186,6 +1341,11 @@
 
 
 
+
+<h5>Fires:</h5>
+<ul>
+    <li>save_resultats- `game_id` : L'identifiant unique de la partie en cours.event:</li>
+</ul>
 
 
 
@@ -1216,7 +1376,7 @@
 
 
 <div class="description">
-    Termine la partie en cours (hôte uniquement).
+    Permet à l'hôte de terminer la partie.
 </div>
 
 
@@ -1260,7 +1420,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="game_room.test.js.html">game_room.test.js</a>, <a href="game_room.test.js.html#line157">line 157</a>
+        <a href="doc.js.html">doc.js</a>, <a href="doc.js.html#line265">line 265</a>
     </li></ul></dd>
     
 
@@ -1274,6 +1434,11 @@
 
 
 
+
+<h5>Fires:</h5>
+<ul>
+    <li>end_game- `game_id` : L'identifiant unique de la partie en cours.event:</li>
+</ul>
 
 
 
@@ -1304,7 +1469,7 @@
 
 
 <div class="description">
-    Sélectionne un problème pour le vote (hôte uniquement).
+    Permet à l'hôte de sélectionner un problème pour que les joueurs puissent voter dessus.
 </div>
 
 
@@ -1356,7 +1521,7 @@
 
             
 
-            <td class="description last">Le problème à sélectionner pour le vote.</td>
+            <td class="description last">Le problème sélectionné par l'hôte.</td>
         </tr>
 
     
@@ -1397,7 +1562,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="game_room.test.js.html">game_room.test.js</a>, <a href="game_room.test.js.html#line122">line 122</a>
+        <a href="doc.js.html">doc.js</a>, <a href="doc.js.html#line192">line 192</a>
     </li></ul></dd>
     
 
@@ -1411,6 +1576,197 @@
 
 
 
+
+<h5>Fires:</h5>
+<ul>
+    <li>select_problem- `game_id` : L'ID de la partie en cours.- `problem` : Le problème sélectionné pour le vote.event:</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="startGame"><span class="type-signature"></span>startGame<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Permet à l'hôte de démarrer la partie en cours.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="doc.js.html">doc.js</a>, <a href="doc.js.html#line153">line 153</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<h5>Fires:</h5>
+<ul>
+    <li>start_game- `game_id` : L'ID de la partie en cours.event:</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="uploadBacklog"><span class="type-signature"></span>uploadBacklog<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Permet à l'utilisateur d'importer un fichier JSON contenant un backlog pour initialiser ou mettre à jour une partie.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="doc.js.html">doc.js</a>, <a href="doc.js.html#line283">line 283</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<h5>Fires:</h5>
+<ul>
+    <li>upload_backlog- `game_id` : L'ID de la partie en cours.- `backlog` : Les données du fichier JSON importé.event:</li>
+</ul>
 
 
 
@@ -1443,13 +1799,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Events</h3><ul><li><a href="global.html#socket#event:error">error</a></li><li><a href="global.html#socket#event:game_state">game_state</a></li></ul><h3>Global</h3><ul><li><a href="global.html#addProblem">addProblem</a></li><li><a href="global.html#addProblemToUI">addProblemToUI</a></li><li><a href="global.html#compteur">compteur</a></li><li><a href="global.html#currentProblem">currentProblem</a></li><li><a href="global.html#devoilerVote">devoilerVote</a></li><li><a href="global.html#displayConcluedVote">displayConcluedVote</a></li><li><a href="global.html#displayVote">displayVote</a></li><li><a href="global.html#downloadResultats">downloadResultats</a></li><li><a href="global.html#endGame">endGame</a></li><li><a href="global.html#gameId">gameId</a></li><li><a href="global.html#pseudo">pseudo</a></li><li><a href="global.html#selectProblem">selectProblem</a></li><li><a href="global.html#socket">socket</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#addProblem">addProblem</a></li><li><a href="global.html#addProblemToUI">addProblemToUI</a></li><li><a href="global.html#castVote">castVote</a></li><li><a href="global.html#compteur">compteur</a></li><li><a href="global.html#currentProblem">currentProblem</a></li><li><a href="global.html#devoilerVote">devoilerVote</a></li><li><a href="global.html#displayConcluedVote">displayConcluedVote</a></li><li><a href="global.html#displayVote">displayVote</a></li><li><a href="global.html#downloadResultats">downloadResultats</a></li><li><a href="global.html#endGame">endGame</a></li><li><a href="global.html#gameId">gameId</a></li><li><a href="global.html#pseudo">pseudo</a></li><li><a href="global.html#selectProblem">selectProblem</a></li><li><a href="global.html#socket">socket</a></li><li><a href="global.html#startGame">startGame</a></li><li><a href="global.html#uploadBacklog">uploadBacklog</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Wed Dec 18 2024 22:43:15 GMT+0100 (Central European Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Thu Dec 19 2024 20:20:37 GMT+0100 (Central European Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>
