@@ -124,6 +124,9 @@ function addProblemToUI(problem) {
     const problemList = document.getElementById("problems-list");
     const li = document.createElement("li");
 
+    // Normaliser l'ID du problème
+    const normalizedProblem = encodeURIComponent(problem);
+
     // Conteneur principal en flexbox
     const problemContainer = document.createElement("div");
     problemContainer.style.display = "flex";
@@ -156,7 +159,7 @@ function addProblemToUI(problem) {
 
     // Partie droite : Résultat aligné à droite
     const resultSpan = document.createElement("span");
-    resultSpan.id = `result-${encodeURIComponent(problem)}`;
+    resultSpan.id = `result-${normalizedProblem}`;
     resultSpan.textContent = "Résultat : En attente"; // Texte par défaut
     resultSpan.style.fontWeight = "bold";
     resultSpan.style.whiteSpace = "nowrap";
@@ -168,6 +171,7 @@ function addProblemToUI(problem) {
     li.appendChild(problemContainer); // Ajoute tout au <li>
     problemList.appendChild(li); // Ajoute au <ul>
 }
+
 
 
 
@@ -189,21 +193,31 @@ function displayConcluedVote(problem, result) {
     }
 }
 
-// Fonction pour afficher un vote pour un problème
-function displayVote(problem, player, vote) {
-    const problemVotesList = document.getElementById(`result-${problem}`);
-    let voteDisplay = document.getElementById(`vote-${player}-${problem}`);
 
-    // Crée ou met à jour le vote du joueur
+function displayVote(problem, player, vote) {
+    const normalizedProblem = encodeURIComponent(problem);
+
+    // Chercher la liste des votes pour le problème donné
+    const problemVotesList = document.getElementById(`result-${normalizedProblem}`);
+    if (!problemVotesList) {
+        console.error(`Problème non trouvé pour afficher le vote : ${problem}`);
+        return;
+    }
+
+    // Génération d'un ID unique pour le vote du joueur
+    const voteId = `vote-${player}-${normalizedProblem}`;
+    let voteDisplay = document.getElementById(voteId);
+
+    // Création ou mise à jour du vote
     if (!voteDisplay) {
         voteDisplay = document.createElement("span");
-        voteDisplay.id = `vote-${player}-${problem}`;
+        voteDisplay.id = voteId;
         problemVotesList.appendChild(voteDisplay);
     }
-    votes = "Votes : ";
-    votes += (`${player} : ? | `);
-    voteDisplay.textContent = votes;
+
+    voteDisplay.textContent = `${player} : ${vote}`;
 }
+
 
 // Fonction pour afficher les votes d'un problème 
 function displayVotes(problem, votes) {
@@ -296,15 +310,18 @@ socket.on("vote_cast", (data) => {
 
 // Mise à jour des votes (non unanimes)
 socket.on("update_votes", (data) => {
-    const problemVotesList = document.getElementById(`result-${data.problem}`);
-    let formattedVotes = "Votes en cours : ";
+    const problemVotesList = document.getElementById(`result-${encodeURIComponent(data.problem)}`);
+    let formattedVotes = "Votes : ";
 
-    // Affiche "?" pour masquer les votes
     formattedVotes += Object.keys(data.votes)
-        .map(player => `${player} : ?`)
+        .map(player => `${player} : ?`) // Masquer les votes des joueurs
         .join(" | ");
 
-    problemVotesList.textContent = formattedVotes;
+    if (problemVotesList) {
+        problemVotesList.textContent = formattedVotes;
+    } else {
+        console.error(`Problème non trouvé pour la mise à jour des votes : ${data.problem}`);
+    }
 });
 
 
@@ -327,17 +344,16 @@ socket.on("revote", (data) => {
 socket.on("unanimous_vote", (data) => {
     displayConcluedVote(data.problem, data.result);
 
-    let votesMessage = "<br><strong>Votes :</strong><br>";
-    for (const [player, vote] of Object.entries(data.votes)) {
-        votesMessage += `${player} : ${vote}<br>`;
-    }
-
     const problemElement = document.getElementById(`result-${encodeURIComponent(data.problem)}`);
     if (problemElement) {
+        let votesMessage = "<br><strong>Votes :</strong><br>";
+        for (const [player, vote] of Object.entries(data.votes)) {
+            votesMessage += `${player} : ${vote}<br>`;
+        }
         problemElement.innerHTML += votesMessage;
     }
 
-    document.getElementById("vote-options").style.display = "none";
+    document.getElementById("vote-options").style.display = "none"; // Désactiver les options de vote
 });
 
 
